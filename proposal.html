@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carrier proposal · SHiP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #F5F1E8;
+    --cream-soft: #FAF7EE;
+    --cream-warm: #EFE9D8;
+    --ink: #1A1A1A;
+    --ink-soft: #2D2D2D;
+    --ink-muted: #6B6862;
+    --ink-dim: #9E9A92;
+    --rule: #D4CFC0;
+    --rule-soft: #E5E0D0;
+    --accent: #0E7490;
+    --accent-bright: #06B6D4;
+    --accent-soft: #ECFEFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245, 241, 232, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto; padding: 16px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 22px;
+    color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+  }
+  .nav-tag { font-size: 11px; color: var(--ink-muted); margin-left: 8px; }
+  .nav-back {
+    font-size: 14px; color: var(--ink-soft); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.15s;
+  }
+  .nav-back:hover { color: var(--accent); }
+
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream-warm);
+  }
+  .hero .container { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+  .label-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 20px; display: block;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+  .hero .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    color: var(--ink-soft);
+    margin: 0;
+    font-weight: 400;
+  }
+  .meta-row {
+    display: flex; gap: 32px; margin-top: 32px;
+    padding-top: 24px; border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .meta-item .lbl {
+    font-size: 10px; color: var(--ink-muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 4px;
+  }
+  .meta-item .val {
+    font-family: 'Fraunces', serif; font-size: 15px; color: var(--ink);
+  }
+
+  /* Article body */
+  article {
+    max-width: 740px; margin: 0 auto; padding: 64px 32px 100px;
+  }
+  article h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 40px; font-weight: 600;
+    line-height: 1.1; letter-spacing: -0.015em;
+    margin: 56px 0 20px;
+    color: var(--ink);
+  }
+  article h1:first-child { margin-top: 0; }
+  article h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 30px; font-weight: 600;
+    line-height: 1.15; letter-spacing: -0.01em;
+    margin: 56px 0 16px;
+    color: var(--ink);
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  article h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 600;
+    line-height: 1.25;
+    margin: 40px 0 12px;
+    color: var(--ink);
+  }
+  article h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    margin: 32px 0 8px;
+    color: var(--ink);
+  }
+  article p {
+    margin: 0 0 18px;
+    color: var(--ink-soft);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  article ul, article ol {
+    margin: 0 0 22px;
+    padding-left: 24px;
+    color: var(--ink-soft);
+  }
+  article li {
+    margin-bottom: 8px;
+    line-height: 1.65;
+  }
+  article li > p { margin-bottom: 8px; }
+  article strong { color: var(--ink); font-weight: 600; }
+  article em { font-style: italic; }
+  article a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+  article a:hover { color: var(--accent-bright); }
+  article code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--cream-warm);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    color: var(--ink);
+  }
+  article pre {
+    background: var(--cream-warm);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0 0 22px;
+  }
+  article pre code {
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+  }
+  article blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 24px 0;
+    padding: 4px 24px;
+    color: var(--ink-soft);
+    font-style: italic;
+    background: var(--cream-warm);
+    border-radius: 0 4px 4px 0;
+  }
+  article hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0;
+  }
+  article .table-wrap {
+    overflow-x: auto;
+    margin: 0 0 28px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  article table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  article th {
+    text-align: left;
+    padding: 12px 16px;
+    background: var(--cream-warm);
+    border-bottom: 1px solid var(--rule);
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  article td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule-soft);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  article tr:last-child td { border-bottom: 0; }
+  article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 16px 0;
+  }
+  article sup {
+    font-size: 0.7em;
+    color: var(--ink-muted);
+    vertical-align: super;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--cream-warm);
+    border-top: 1px solid var(--rule);
+    padding: 48px 0;
+  }
+  footer .container {
+    max-width: 1240px; margin: 0 auto; padding: 0 32px;
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer p {
+    margin: 0; font-size: 13px; color: var(--ink-muted);
+  }
+  footer a { color: var(--ink-muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .nav-inner { padding: 14px 20px; }
+    .nav-tag { display: none; }
+    .hero { padding: 56px 0 40px; }
+    .hero .container { padding: 0 20px; }
+    article { padding: 40px 20px 60px; }
+    article h1 { font-size: 32px; }
+    article h2 { font-size: 24px; }
+    article h3 { font-size: 19px; }
+    footer .container { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      SHiP<span class="nav-tag">— Silica-Histidine Polyplex</span>
+    </a>
+    <a href="index.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to overview
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <span class="label-eyebrow">Document</span>
+    <h1>Carrier proposal</h1>
+    <p class="subtitle">Complete design specification, target product profile, and computational validation plan</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <div class="lbl">Author</div>
+        <div class="val">Cyrus</div>
+      </div>
+      <div class="meta-item">
+        <div class="lbl">Version</div>
+        <div class="val">v0.1 · April 2026</div>
+      </div>
+      <div class="meta-item">
+        <div class="lbl">Status</div>
+        <div class="val">Pre-seed proposal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<article>
+<p><strong>Prepared by:</strong> Cyrus<br><strong>Date:</strong> April 2026<br><strong>Document type:</strong> Design proposal for computational validation<br><strong>Intended mentor review:</strong> LEGenD Lab (UBC) or equivalent LNP formulation group</p>
+<hr>
+<h2>1. Executive Summary</h2>
+<p>The global mRNA vaccine ecosystem is tethered to a –70 °C to –20 °C cold chain. The dominant molecular failure modes during storage are (i) oxidation of unsaturated ionizable lipids and cholesterol, (ii) hydrolysis of lipid ester bonds, (iii) LNP aggregation and fusion, and (iv) direct hydrolytic cleavage of the mRNA backbone. Of these, <strong>lipid oxidation is uniquely problematic</strong>: it proceeds even at sub-zero temperatures, generates reactive aldehydes (4-HNE, malondialdehyde) that form covalent adducts with mRNA, and cannot be eliminated by purely physical stabilization methods such as lyophilization.</p>
+<p>The oxidation vulnerability is architectural. Every clinically deployed ionizable lipid — SM-102, ALC-0315, DLin-MC3-DMA — contains multiple C=C double bonds in its fatty tails. These unsaturations are not incidental; they are mechanistically required for the membrane-destabilizing, pH-responsive behavior that drives endosomal escape. Potency and instability are therefore chemically coupled in current LNPs.</p>
+<p>This proposal describes the <strong>Silica-Histidine Polyplex (SHiP)</strong> platform: a fully lipid-free delivery vehicle that decouples endosomal escape from oxidizable chemistry. SHiP consists of (1) a saturated poly(L-histidine-co-L-lysine) polymer core that condenses mRNA via electrostatic interaction and drives endosomal escape via the proton sponge effect, (2) a thin (~5 nm) biomimetic silica shell that provides a gas-impermeable, oxidation-proof storage barrier, and (3) a trehalose glass matrix for lyophilized storage at ambient temperature.</p>
+<p><strong>Target product profile:</strong> ≥12 months at 25 °C, intramuscular administration, antigen-presenting cell (APC) transfection, vaccine indication.</p>
+<p><strong>Scope of this proposal:</strong> A complete design specification and a 6–12 month computational validation plan executable by an independent student researcher. Wet lab synthesis and characterization are out of scope and would be undertaken in collaboration with an academic mentor in a subsequent phase.</p>
+<hr>
+<h2>2. Problem Statement</h2>
+<h3>2.1 The cold chain as a public-health bottleneck</h3>
+<p>Roughly 3 billion people live in regions where reliable ultra-cold storage is either absent or prohibitively expensive to maintain. The Pfizer-BioNTech and Moderna COVID-19 vaccines were initially specified at –70 °C and –20 °C respectively; even after stabilization improvements they require refrigerated storage with limited ambient-temperature excursion windows. This is the primary structural reason mRNA technology, despite its speed advantage, has not displaced protein-subunit vaccines in low-resource settings.</p>
+<h3>2.2 Why lipid oxidation matters more than other failure modes</h3>
+<p>Lyophilization and trehalose glass matrices can largely suppress (i) mRNA hydrolysis (by reducing water activity), (iii) particle aggregation (by immobilizing particles in the glass), and (iv) lipid hydrolysis (by removing the nucleophile). They <strong>cannot</strong> suppress lipid oxidation, which requires only trace molecular oxygen and proceeds via radical chain propagation. This asymmetry means that oxidation becomes the rate-limiting stability failure mode in any dry or glassy formulation — precisely the formulations one would design for ambient storage.</p>
+<p>The oxidation cascade produces:</p>
+<ul>
+<li><strong>Lipid hydroperoxides</strong> that decompose to aldehydes</li>
+<li><strong>α,β-unsaturated aldehydes</strong> (notably 4-hydroxynonenal, 4-HNE) that form Michael adducts with mRNA nucleobases</li>
+<li><strong>Malondialdehyde</strong> that crosslinks nucleic acids</li>
+<li><strong>Oxysterols</strong> from cholesterol degradation that alter LNP membrane properties</li>
+</ul>
+<p>Schoenmaker et al. (2021) and subsequent formulation literature document each of these pathways in mRNA-LNP products. Vial-level quality assays do not currently capture all of them.</p>
+<h3>2.3 Why incremental fixes are insufficient</h3>
+<p>The obvious patch — saturated ionizable lipids — exists but has consistently produced 10–100× potency reductions relative to unsaturated counterparts. Antioxidant excipients (α-tocopherol, BHT) slow but do not eliminate oxidation and introduce their own regulatory burden. Oxygen-barrier primary packaging is incremental at best. A <strong>structural redesign of the delivery vehicle</strong> is the appropriate scale of intervention.</p>
+<hr>
+<h2>3. Target Product Profile</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Specification</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Storage stability</td>
+<td>≥12 months at 25 °C, protected from light</td>
+<td>Matches WHO VVM14 + common pharmacy conditions</td>
+</tr>
+<tr>
+<td>Excursion tolerance</td>
+<td>≥1 week at 40 °C</td>
+<td>Tropical distribution realism</td>
+</tr>
+<tr>
+<td>Route of administration</td>
+<td>Intramuscular</td>
+<td>Standard vaccine route</td>
+</tr>
+<tr>
+<td>Target cell</td>
+<td>APCs (dendritic cells, macrophages) at injection site and draining lymph node</td>
+<td>Vaccine immunogenicity mechanism</td>
+</tr>
+<tr>
+<td>mRNA payload</td>
+<td>1–4 kb modified mRNA (pseudouridine standard)</td>
+<td>Current vaccine norm</td>
+</tr>
+<tr>
+<td>Encapsulation efficiency</td>
+<td>≥80%</td>
+<td>Match or exceed current LNPs</td>
+</tr>
+<tr>
+<td>Particle size</td>
+<td>80–150 nm</td>
+<td>Lymph-node drainage sweet spot</td>
+</tr>
+<tr>
+<td>Dose</td>
+<td>≤100 µg mRNA</td>
+<td>Match current mRNA vaccine dose range</td>
+</tr>
+<tr>
+<td>Reconstitution</td>
+<td>Single-vial lyophilized powder + aqueous diluent</td>
+<td>Compatible with existing clinical infrastructure</td>
+</tr>
+</tbody></table>
+</div><p>The spec deliberately does <strong>not</strong> include hepatocyte delivery or therapeutic (non-vaccine) indications. Those require substantially higher potency and are a harder problem; scoping to vaccine APCs keeps the design tractable.</p>
+<hr>
+<h2>4. Proposed Design: SHiP</h2>
+<h3>4.1 Architecture</h3>
+<p>SHiP is a <strong>core–shell–matrix</strong> architecture:</p>
+<pre><code>              ┌─────────────────────────────────────────┐
+              │   Trehalose glass matrix (storage)      │
+              │                                         │
+              │     ┌──────────────────────────┐        │
+              │     │  Silica shell (~5 nm)    │        │
+              │     │   ┌──────────────────┐   │        │
+              │     │   │  pHK polymer +   │   │        │
+              │     │   │  mRNA polyplex   │   │        │
+              │     │   │   (~60–100 nm)   │   │        │
+              │     │   └──────────────────┘   │        │
+              │     │                          │        │
+              │     │   PEG-5k + mannose       │        │
+              │     │   ligand surface         │        │
+              │     └──────────────────────────┘        │
+              │                                         │
+              └─────────────────────────────────────────┘
+</code></pre>
+<p><strong>Final particle diameter:</strong> ~80–120 nm after silica coating.<br><strong>Dosage form:</strong> Lyophilized powder in a single-dose vial.<br><strong>Reconstitution:</strong> Water for injection; silica shell remains intact in aqueous suspension at neutral pH.</p>
+<h3>4.2 Molecular composition</h3>
+<p><strong>Core polymer: poly(L-histidine-<em>co</em>-L-lysine) — &quot;pHK&quot;</strong></p>
+<ul>
+<li>Branched architecture, ~15–25 kDa</li>
+<li>Histidine:lysine molar ratio ≈ 1:1</li>
+<li>Synthesis via N-carboxyanhydride (NCA) ring-opening polymerization — standard peptide chemistry, scalable</li>
+<li>Histidine imidazole pKa ≈ 6.0 → protonates in early endosome, provides proton sponge</li>
+<li>Lysine ε-amine pKa ≈ 10.5 → condenses mRNA via electrostatic interaction at neutral pH; also nucleates silica deposition</li>
+<li><strong>No C=C bonds anywhere</strong> in the polymer backbone or side chains</li>
+</ul>
+<p><strong>mRNA complexation:</strong> N/P ratio ≈ 8 (ratio of polymer nitrogens to RNA phosphates). At this ratio, published histidinylated polylysine systems yield ~90% encapsulation efficiency and particle sizes in the 60–100 nm range.</p>
+<p><strong>Silica shell</strong></p>
+<ul>
+<li>Biomimetic silicification using <strong>tetramethyl orthosilicate (TMOS)</strong> hydrolyzed at mild pH (7.0–7.4) in the presence of the polyplex</li>
+<li>Primary amines on lysine residues catalyze silica condensation at the particle surface (diatom R5 peptide mechanism, established in biomimetic silicification literature)</li>
+<li>Shell thickness target: <strong>5 nm</strong> — thick enough to provide a gas and water diffusion barrier, thin enough to dissolve on endosomal timescale</li>
+<li><strong>No oxidizable bonds</strong> — silica is thermodynamically stable in the presence of O₂</li>
+</ul>
+<p><strong>Surface functionalization</strong></p>
+<ul>
+<li>PEG-5 kDa for stealth and colloidal stability, grafted via silane chemistry</li>
+<li><strong>Mannose ligand</strong> (α-D-mannopyranoside) at ~5% of PEG chains for APC targeting via mannose receptor (CD206), which is highly expressed on dendritic cells and macrophages</li>
+<li>Mannose targeting is well-precedented for subunit vaccine adjuvants and polyplex vaccines</li>
+</ul>
+<p><strong>Excipient matrix</strong></p>
+<ul>
+<li><strong>Trehalose</strong> (10–15% w/v pre-lyophilization)</li>
+<li>Creates a glassy amorphous solid with Tg &gt; 100 °C at residual moisture &lt;1%</li>
+<li>Trehalose is GRAS, used in multiple approved biologics, and is the canonical anhydrobiosis excipient</li>
+</ul>
+<h3>4.3 Key properties</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hydrodynamic diameter</td>
+<td>80–120 nm</td>
+</tr>
+<tr>
+<td>Polydispersity index</td>
+<td>&lt;0.2</td>
+</tr>
+<tr>
+<td>Zeta potential (pre-PEG)</td>
+<td>+20 to +30 mV</td>
+</tr>
+<tr>
+<td>Zeta potential (post-PEG)</td>
+<td>–5 to +5 mV</td>
+</tr>
+<tr>
+<td>Encapsulation efficiency</td>
+<td>≥80%</td>
+</tr>
+<tr>
+<td>Residual moisture post-lyo</td>
+<td>&lt;1% w/w</td>
+</tr>
+<tr>
+<td>Oxidizable bonds</td>
+<td>0 (none in the polymer, silica shell, or PEG backbone)</td>
+</tr>
+</tbody></table>
+</div><hr>
+<h2>5. Mechanism of Action</h2>
+<h3>5.1 Assembly (manufacturing)</h3>
+<ol>
+<li>pHK polymer is mixed with mRNA in citrate buffer, pH 5.5, at N/P = 8. Polyplex forms within seconds via electrostatic collapse.</li>
+<li>Buffer is exchanged to HEPES pH 7.4.</li>
+<li>TMOS is added at low concentration. Lysine primary amines on the polyplex surface catalyze hydrolysis and condensation of TMOS into a silica shell over ~1 hour at room temperature.</li>
+<li>PEG-silane (with 5% mannose-PEG-silane) is grafted to the silica surface via Si–O–Si linkage over an additional hour.</li>
+<li>Particles are purified by tangential flow filtration, mixed with trehalose (10% w/v final), and lyophilized.</li>
+</ol>
+<p>This is entirely a chemical process — no high-pressure microfluidics required, in contrast to LNP manufacturing which depends on Precision NanoSystems–style mixers. This is a potential manufacturing advantage for low-resource deployment.</p>
+<h3>5.2 Storage stability mechanism</h3>
+<p><strong>Against oxidation:</strong> No oxidizable bonds exist. Even if molecular oxygen is present in the vial headspace, there is no substrate to oxidize in the polymer, silica, or PEG. This is the core value proposition.</p>
+<p><strong>Against hydrolysis:</strong> Silica shell reduces water access to the mRNA core. Trehalose glass matrix immobilizes residual water and the entire particle in a high-viscosity amorphous solid. Water activity in the final dosage form is ~0.1, which reduces hydrolysis rates by roughly 10× relative to fully hydrated mRNA.</p>
+<p><strong>Against aggregation:</strong> Particles are immobilized in the trehalose glass. Silica shell prevents particle–particle fusion on reconstitution.</p>
+<p><strong>Against mRNA backbone cleavage:</strong> This is the irreducible failure mode. Using standard pseudouridine-modified mRNA and the combined water-exclusion strategy above, extrapolation from published lyophilized mRNA stability data (e.g., CureVac CV7202, Sanofi lyophilized programs) suggests ≥12 months at 25 °C is achievable.</p>
+<h3>5.3 Cellular delivery mechanism</h3>
+<ol>
+<li><strong>Injection (IM):</strong> SHiP particles reconstituted in saline or dextrose diluent.</li>
+<li><strong>APC uptake:</strong> Mannose ligand binds CD206 on dendritic cells and macrophages. Receptor-mediated endocytosis.</li>
+<li><strong>Endosomal acidification:</strong> Early endosome pH drops to ~6.0–6.5.</li>
+<li><strong>Silica shell dissolution:</strong> Thin silica shells with incorporated amine catalysts are documented to dissolve over hours under endosomal conditions (combination of mild pH drop, phosphate catalysis, and amine-catalyzed hydrolysis). Release kinetics tuned by shell thickness.</li>
+<li><strong>Proton sponge effect:</strong> As silica dissolves and pH continues to drop, pHK histidine residues protonate. The resulting positive charge density draws Cl⁻ and water into the endosome by osmosis, swelling and eventually rupturing the vesicle. This is the classical mechanism documented for polyethylenimine (PEI) and histidinylated polymers.</li>
+<li><strong>mRNA release into cytosol:</strong> Once released from the endosome, the polyplex disassembles under the lower cytosolic pH and competitive displacement by cellular polyanions (e.g., RNA, proteins).</li>
+<li><strong>Translation:</strong> mRNA is translated by ribosomes into antigen; antigen is processed and presented via MHC class I and II pathways.</li>
+<li><strong>Immune response:</strong> Standard vaccine cascade — antigen presentation, T cell activation, B cell activation, antibody response.</li>
+</ol>
+<p><strong>Caveat on endosomal escape efficiency:</strong> Polymer-based proton sponge systems historically achieve lower endosomal escape efficiency than optimized LNPs. For a vaccine indication where APCs are the target (and APCs are professional phagocytes with naturally leaky endosomes), this is more tolerable than for hepatocyte-targeted therapeutics. This is why the TPP is deliberately vaccine-only.</p>
+<hr>
+<h2>6. Scientific Rationale</h2>
+<h3>6.1 Eliminating C=C bonds is sufficient to eliminate the dominant oxidation pathway</h3>
+<p>Lipid peroxidation proceeds via radical abstraction of the bis-allylic hydrogen adjacent to C=C double bonds (the ~76 kcal/mol C–H bond next to a double bond is far weaker than a ~98 kcal/mol aliphatic C–H). Saturated hydrocarbons are effectively inert to ambient oxidation on pharmaceutical timescales. Silica, imidazole, primary amines, ether backbones (PEG), and the trehalose disaccharide collectively contain no bis-allylic hydrogens and no other kinetically accessible oxidation handles. The design therefore removes the substrate entirely, rather than attempting to slow the reaction.</p>
+<p>(PEG is not strictly immune to autoxidation — it can undergo ether cleavage via hydroperoxide formation — but this is orders of magnitude slower than lipid peroxidation and is well-controlled by standard antioxidant excipients if needed.)</p>
+<h3>6.2 Polyhistidine proton sponge: strengths and caveats</h3>
+<p>The proton sponge mechanism was originally proposed by Behr and colleagues in the 1990s for PEI. Subsequent work has been partly critical — some studies suggest that osmotic rupture alone is insufficient and that membrane destabilization by the polymer itself contributes. For SHiP, the operating assumption is:</p>
+<ul>
+<li><strong>Primary mechanism:</strong> proton sponge (histidine protonation + Cl⁻ influx + osmotic swelling)</li>
+<li><strong>Secondary mechanism:</strong> direct polymer–membrane interaction once the endosome is destabilized</li>
+</ul>
+<p>If computational validation suggests the proton sponge mechanism is insufficient, a <strong>fallback design</strong> incorporates a pH-responsive membrane-active peptide (e.g., GALA or a modified HA2 fusion peptide) into the pHK polymer as a conjugate or blend. This is the most likely engineering modification I would expect a UBC reviewer to flag.</p>
+<h3>6.3 Biomimetic silica encapsulation precedents</h3>
+<ul>
+<li><strong>Diatoms and sponges</strong> synthesize silica structures at neutral pH using amine-rich silaffin peptides as catalysts. The R5 peptide is the canonical example.</li>
+<li><strong>Ensilication</strong> (Sartbaeva et al., University of Bath) has demonstrated that proteins encapsulated in silica shells retain function after ≥6 months at room temperature, including loss of activity &lt;20% in some cases.</li>
+<li><strong>Calcium phosphate and silica coatings</strong> on nanoparticles have been explored for controlled drug release.</li>
+</ul>
+<p>What has <strong>not</strong> been extensively published (to my knowledge as of early 2026) is the specific combination of polyhistidine-polylysine mRNA polyplex with a biomimetic silica shell optimized for ambient mRNA vaccine storage. Phase 1 of the computational validation plan should include a rigorous literature search to verify novelty.</p>
+<h3>6.4 Trehalose glass matrix and anhydrobiosis</h3>
+<p>Trehalose is used by tardigrades and anhydrobiotic organisms to survive near-total desiccation. Its mechanism is two-fold: (i) water replacement at biomolecule surfaces via hydrogen bonding, and (ii) formation of a high-Tg amorphous glass that immobilizes biomolecules kinetically. Multiple approved biologics use trehalose-based lyophilized formulations. Its use in SHiP is conventional rather than novel; the novelty is the combination with a non-oxidizable carrier.</p>
+<hr>
+<h2>7. Predicted Performance</h2>
+<h3>7.1 Stability prediction</h3>
+<p><strong>Qualitative argument:</strong></p>
+<ul>
+<li>Oxidation rate → effectively zero (no substrate)</li>
+<li>Aggregation rate → near zero (glass immobilization)</li>
+<li>Lipid hydrolysis → not applicable (no lipids)</li>
+<li>mRNA hydrolysis → dominant remaining failure mode</li>
+</ul>
+<p><strong>Quantitative estimate:</strong><br>Extrapolating from lyophilized mRNA stability literature and the Arrhenius framework we used in the GVRSF project, with activation energy ~100 kJ/mol and ~90% encapsulation retention required:</p>
+<ul>
+<li>At 4 °C (refrigerator): predicted shelf life ≈ 3+ years</li>
+<li>At 25 °C (room temperature): predicted shelf life ≈ 12–24 months</li>
+<li>At 40 °C (excursion): predicted excursion tolerance ≈ 2–4 weeks</li>
+</ul>
+<p>These estimates assume residual moisture &lt;1% and light protection. They should be validated quantitatively in Phase 2 of the computational plan using a multi-pathway kinetic model (see §9).</p>
+<h3>7.2 Potency prediction</h3>
+<p>Honest assessment: potency per unit mRNA is expected to be <strong>lower than current clinical LNPs</strong>, likely by 3–10×. Polyplex systems consistently underperform LNPs on transfection efficiency, primarily due to weaker endosomal escape. Mitigations:</p>
+<ul>
+<li>Vaccine indication: APCs are the target, and APCs tolerate lower transfection because a small amount of expressed antigen is sufficient to trigger immunity.</li>
+<li>Self-amplifying RNA (saRNA) as a payload option: amplification in the cytosol compensates for lower delivery efficiency. This is complementary to SHiP and worth proposing as a companion technology in a later phase.</li>
+<li>Optimization of N/P ratio, polymer molecular weight, and histidine:lysine ratio via computational screening in Phase 2.</li>
+</ul>
+<p><strong>Target potency:</strong> within 10× of BNT162b2 on a µg mRNA basis in an in vivo immunogenicity assay. This is sufficient for a viable vaccine product given that dose is not strictly constrained.</p>
+<h3>7.3 Safety considerations</h3>
+<ul>
+<li><strong>Polymer toxicity:</strong> poly(histidine-co-lysine) is composed of natural amino acids and degrades into histidine and lysine in vivo. Far lower toxicity concern than PEI, which is notorious for cytotoxicity.</li>
+<li><strong>Silica toxicity:</strong> Crystalline silica is a known hazard (silicosis, respirable fraction). Amorphous biomimetic silica is generally considered safer; mesoporous silica nanoparticles are in clinical trials. This is a real question that Phase 1 literature review must address.</li>
+<li><strong>Mannose targeting:</strong> increases APC specificity but also increases uptake by liver sinusoidal cells, which is not directly problematic for a vaccine but should be characterized.</li>
+<li><strong>PEG:</strong> standard anti-PEG IgM/IgG concerns apply; not unique to SHiP.</li>
+</ul>
+<hr>
+<h2>8. Comparison with State-of-the-Art</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Current mRNA-LNP (BNT162b2 / mRNA-1273)</th>
+<th>Lyophilized LNP (CureVac / Sanofi)</th>
+<th><strong>SHiP (proposed)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Storage temp</td>
+<td>–70 °C / –20 °C</td>
+<td>2–8 °C to 25 °C (short term)</td>
+<td>25 °C</td>
+</tr>
+<tr>
+<td>Shelf life at 25 °C</td>
+<td>~1 month</td>
+<td>6–12 months</td>
+<td><strong>≥12 months target</strong></td>
+</tr>
+<tr>
+<td>Lipid oxidation risk</td>
+<td>High</td>
+<td>Moderate (still present in dry state)</td>
+<td><strong>None (no oxidizable substrate)</strong></td>
+</tr>
+<tr>
+<td>Manufacturing</td>
+<td>Microfluidic mixing</td>
+<td>Microfluidic + lyophilization</td>
+<td>Chemical synthesis + lyophilization</td>
+</tr>
+<tr>
+<td>Endosomal escape efficiency</td>
+<td>~1–2% (very good for polymers)</td>
+<td>~1–2%</td>
+<td>~0.1–1% (expected)</td>
+</tr>
+<tr>
+<td>Potency per µg mRNA</td>
+<td>Gold standard</td>
+<td>~0.7× of liquid LNP</td>
+<td>~0.1–0.3× of LNP (expected)</td>
+</tr>
+<tr>
+<td>Regulatory precedent</td>
+<td>Strong (several approvals)</td>
+<td>Developing (Phase 2/3)</td>
+<td>Novel — no precedent</td>
+</tr>
+<tr>
+<td>Vaccine-only vs. broad</td>
+<td>Broad</td>
+<td>Broad</td>
+<td>Vaccine-only initially</td>
+</tr>
+</tbody></table>
+</div><p>The honest positioning: <strong>SHiP trades potency for stability.</strong> It is not a replacement for LNPs in therapeutic indications; it is a proposed alternative specifically for global-distribution vaccines where cold chain is the binding constraint.</p>
+<hr>
+<h2>9. Computational Validation Plan (6–12 Months)</h2>
+<h3>Phase 1 (Weeks 1–8): Literature review and design finalization</h3>
+<ul>
+<li>Systematic review of non-lipid mRNA carrier literature, 2020–2026</li>
+<li>Verify novelty of specific SHiP design</li>
+<li>Review polymer-silica hybrid nanoparticle literature for mRNA and siRNA</li>
+<li>Assemble published degradation kinetics data for candidate components</li>
+<li>Finalize composition (polymer MW, H:K ratio, shell thickness, N/P)</li>
+<li><strong>Output:</strong> literature review document, finalized design specification</li>
+</ul>
+<h3>Phase 2 (Weeks 9–20): Chemistry and stability modeling</h3>
+<ul>
+<li><strong>DFT / bond dissociation energy analysis</strong> on all candidate components to quantify oxidation susceptibility. Software: ORCA (free) or Gaussian (if UBC access available).</li>
+<li><strong>Multi-pathway degradation kinetic model</strong> extending the biphasic Arrhenius framework from the GVRSF project. Pathways: oxidation (negligible), mRNA hydrolysis, silica dissolution, aggregation.</li>
+<li><strong>Water activity and moisture sorption modeling</strong> for the trehalose glass matrix.</li>
+<li><strong>Shelf life predictions</strong> for 4 °C, 25 °C, 40 °C with confidence bands.</li>
+<li><strong>Output:</strong> kinetic model with predicted shelf life distributions.</li>
+</ul>
+<h3>Phase 3 (Weeks 21–36): Molecular simulation of delivery mechanism</h3>
+<ul>
+<li><strong>Coarse-grained MD</strong> (MARTINI force field, GROMACS) of pHK polymer + mRNA complexation. Does the polyplex form? What is the thermodynamically preferred N/P ratio?</li>
+<li><strong>Atomistic MD of polyhistidine protonation</strong> and membrane interaction under endosomal pH. Does the proton sponge mechanism produce sufficient osmotic pressure to rupture a model endosomal vesicle?</li>
+<li><strong>Silica shell dissolution modeling</strong> using published dissolution kinetics of thin biomimetic silica films at endosomal conditions.</li>
+<li><strong>Output:</strong> mechanism validation or failure report. If proton sponge is insufficient, Phase 4 incorporates a membrane-active peptide conjugate.</li>
+</ul>
+<h3>Phase 4 (Weeks 37–48): Integration, white paper, mentor review</h3>
+<ul>
+<li>Integrate all results into a single design document with predicted performance, sensitivity analysis, and falsifiable experimental predictions.</li>
+<li>Identify the 2–3 wet-lab experiments that would most efficiently de-risk the design (likely: synthesis and DLS characterization of the polyplex, silica shell deposition and TEM verification, in vitro transfection in a DC cell line).</li>
+<li>Submit for critical review by Dr. Miffy Cheng (LEGenD Lab, UBC) or equivalent academic mentor.</li>
+<li><strong>Output:</strong> publication-quality white paper, 20–40 pages including appendices, suitable for submission to a high school research journal or as a preprint.</li>
+</ul>
+<h3>Tooling</h3>
+<ul>
+<li><strong>All software used should be free and open-source.</strong> GROMACS, ORCA, RDKit, Python scientific stack.</li>
+<li><strong>Hardware:</strong> computationally feasible on a modern laptop for most tasks; coarse-grained MD on a modern laptop is sufficient; atomistic MD of small systems is feasible; longer runs would benefit from a workstation or academic HPC access via mentor.</li>
+</ul>
+<hr>
+<h2>10. Manufacturing &amp; Scalability</h2>
+<p>SHiP&#39;s manufacturing profile is arguably better than LNPs for low-resource deployment:</p>
+<ul>
+<li><strong>No microfluidic mixing required.</strong> Silicification and polyplex formation are bulk chemical processes. Capex per unit output is lower.</li>
+<li><strong>Lyophilization is standard pharmaceutical unit operation.</strong> Widely available.</li>
+<li><strong>Polymer synthesis (NCA polymerization of amino acids) is scalable.</strong> Several contract manufacturers produce poly(amino acids) at GMP scale.</li>
+<li><strong>TMOS is a commodity chemical.</strong> Food-grade silica and silicate chemistry is well-established.</li>
+<li><strong>Cold chain at the manufacturing site is not required</strong> once product is lyophilized.</li>
+</ul>
+<p><strong>Primary manufacturing risk:</strong> batch-to-batch reproducibility of biomimetic silicification. Silica shell thickness and uniformity may vary more than microfluidic-mixed LNP formation. This is a real concern and a plausible experimental priority.</p>
+<hr>
+<h2>11. Regulatory Considerations</h2>
+<p>SHiP is a novel chemical entity with no direct regulatory precedent. A realistic regulatory path:</p>
+<ol>
+<li><strong>Preclinical:</strong> standard toxicology, pharmacokinetics, immunogenicity in mice and NHPs.</li>
+<li><strong>IND-enabling:</strong> characterization of silica shell dissolution products, amorphous silica biocompatibility data, polymer biodegradation kinetics.</li>
+<li><strong>Phase 1:</strong> healthy volunteers, dose escalation, standard vaccine endpoints.</li>
+<li><strong>Key regulatory asks:</strong> cross-reference existing approvals for amorphous silica (food additive, some pharmaceutical excipients) and poly(amino acids) (approved in several delivery systems). Novel combination requires de novo review.</li>
+</ol>
+<p>The regulatory path is the slowest part of the pipeline and is not an earthshot-scale risk in itself, but it is a multi-year timeline.</p>
+<hr>
+<h2>12. Risks and Open Questions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Likelihood</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Proton sponge mechanism insufficient for endosomal escape</td>
+<td>Medium</td>
+<td>High</td>
+<td>Fallback: incorporate GALA/HA2 membrane-active peptide</td>
+</tr>
+<tr>
+<td>Silica shell dissolution kinetics too slow in endosome</td>
+<td>Medium</td>
+<td>High</td>
+<td>Tune shell thickness (3–8 nm range); incorporate amine dopants</td>
+</tr>
+<tr>
+<td>Polyplex instability during silica deposition</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Optimize buffer conditions; protect during silicification</td>
+</tr>
+<tr>
+<td>mRNA hydrolysis exceeds prediction at 25 °C</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Further reduce moisture; consider secondary packaging with desiccant</td>
+</tr>
+<tr>
+<td>Amorphous silica immunogenicity concerns</td>
+<td>Low–Medium</td>
+<td>Medium</td>
+<td>Cite existing silica nanoparticle safety data; characterize in vivo</td>
+</tr>
+<tr>
+<td>Manufacturing reproducibility (silica shell uniformity)</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>Process development priority; identify as Phase 5 focus</td>
+</tr>
+<tr>
+<td>Potency insufficient even for vaccine use</td>
+<td>Medium</td>
+<td>High</td>
+<td>Pair with saRNA payload in next-generation design</td>
+</tr>
+<tr>
+<td>Someone else publishes this first in 2026</td>
+<td>Unknown</td>
+<td>High</td>
+<td>Phase 1 literature review; move efficiently</td>
+</tr>
+</tbody></table>
+</div><hr>
+<h2>13. Conclusion and Next Steps</h2>
+<p>The Silica-Histidine Polyplex (SHiP) platform is a complete structural alternative to ionizable lipid nanoparticles, designed specifically to eliminate the lipid oxidation pathway that currently limits ambient-temperature mRNA vaccine storage. It trades some delivery potency for dramatically improved stability, which is the right trade for a global-distribution vaccine indication where cold chain infrastructure is the binding constraint.</p>
+<p>The design is chemically defensible (no oxidizable bonds anywhere), mechanistically coherent (proton sponge for endosomal escape, biomimetic silica for storage barrier, trehalose glass for anhydrobiotic matrix), and scoped to be computationally validated by an independent student researcher over 6–12 months using free and open-source tools.</p>
+<p><strong>Immediate next steps:</strong></p>
+<ol>
+<li>Circulate this proposal to Dr. Miffy Cheng (LEGenD Lab, UBC) or equivalent LNP formulation mentor for critical review.</li>
+<li>Execute Phase 1 literature review to verify novelty and refine the design.</li>
+<li>Begin Phase 2 kinetic modeling, building on the biphasic Arrhenius framework developed for GVRSF.</li>
+</ol>
+<p>The earthshot framing, if you want it: <em>&quot;Remove the cold chain from global mRNA vaccine distribution by redesigning the delivery vehicle around chemistry that doesn&#39;t oxidize.&quot;</em></p>
+<hr>
+<h2>References (indicative, to be expanded in Phase 1)</h2>
+<ul>
+<li>Schoenmaker, L., et al. (2021). mRNA-lipid nanoparticle COVID-19 vaccines: Structure and stability. <em>International Journal of Pharmaceutics</em>.</li>
+<li>Hou, X., Zaks, T., Langer, R., &amp; Dong, Y. (2021). Lipid nanoparticles for mRNA delivery. <em>Nature Reviews Materials</em>.</li>
+<li>Midoux, P., &amp; Monsigny, M. (1999). Efficient gene transfer by histidylated polylysine/pDNA complexes. <em>Bioconjugate Chemistry</em>.</li>
+<li>Boussif, O., et al. (1995). A versatile vector for gene and oligonucleotide transfer into cells in culture and in vivo: polyethylenimine. <em>PNAS</em>. (Original proton sponge paper.)</li>
+<li>Kröger, N., Deutzmann, R., &amp; Sumper, M. (1999). Polycationic peptides from diatom biosilica that direct silica nanosphere formation. <em>Science</em>. (Biomimetic silicification.)</li>
+<li>Chen, Y.-C., et al. / Sartbaeva et al. — ensilication of proteins for room-temperature storage. <em>Nature Communications</em> / <em>Scientific Reports</em>.</li>
+<li>Gilleron, J., et al. (2013). Image-based analysis of lipid nanoparticle–mediated siRNA delivery, intracellular trafficking and endosomal escape. <em>Nature Biotechnology</em>. (1–2% endosomal escape.)</li>
+<li>Green, J. J., et al. — PBAE polymer literature for nucleic acid delivery.</li>
+<li>Crowe, J. H., Crowe, L. M., &amp; Carpenter, J. F. — trehalose anhydrobiosis and biopharmaceutical stabilization literature.</li>
+<li>Fornaguera, C., &amp; Borrós, S. — polymer-based mRNA delivery reviews.</li>
+</ul>
+<p><em>References above are indicative and drawn from background knowledge; full literature verification is part of Phase 1.</em></p>
+
+</article>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Cyrus / SHiP project. <a href="index.html">Back to overview</a> · <a href="mailto:syho.cyrus@gmail.com">syho.cyrus@gmail.com</a></p>
+    <p>Open materials. Numerical predictions are projections from kinetic modeling, not wet-lab measurements.</p>
+  </div>
+</footer>
+
+</body>
+</html>

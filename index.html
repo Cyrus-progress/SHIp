@@ -1,0 +1,1926 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SHiP — An ambient-temperature mRNA delivery platform</title>
+<meta name="description" content="A lipid-free delivery vehicle designed to remove mRNA vaccines from the cold chain. Pre-seed proposal, April 2026." />
+
+<!-- Open Graph for shareability -->
+<meta property="og:title" content="SHiP — Ambient-temperature mRNA vaccine delivery" />
+<meta property="og:description" content="A lipid-free delivery vehicle designed to remove mRNA vaccines from the cold chain." />
+<meta property="og:type" content="website" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --cream: #F5F1E8;
+    --cream-soft: #FAF7EE;
+    --cream-warm: #EFE9D8;
+    --ink: #1A1A1A;
+    --ink-soft: #2D2D2D;
+    --ink-muted: #6B6862;
+    --ink-dim: #9E9A92;
+    --rule: #D4CFC0;
+    --rule-soft: #E5E0D0;
+    --accent: #0E7490;
+    --accent-bright: #06B6D4;
+    --accent-soft: #ECFEFF;
+    --warn: #B45309;
+    --good: #047857;
+    --danger: #B91C1C;
+    --dark: #0F1F36;
+    --dark-soft: #152340;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== Typography ===== */
+  .display {
+    font-family: 'Fraunces', 'Georgia', serif;
+    font-feature-settings: "ss01", "ss02";
+    font-optical-sizing: auto;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .display-italic {
+    font-family: 'Fraunces', 'Georgia', serif;
+    font-style: italic;
+    font-optical-sizing: auto;
+  }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .h1 { font-size: clamp(48px, 7vw, 96px); font-weight: 600; }
+  .h2 { font-size: clamp(36px, 4.5vw, 56px); font-weight: 600; line-height: 1.05; letter-spacing: -0.015em; }
+  .h3 { font-size: clamp(24px, 2.5vw, 32px); font-weight: 500; line-height: 1.2; }
+  .h4 { font-size: 20px; font-weight: 600; line-height: 1.3; }
+  .lede { font-size: clamp(20px, 2vw, 26px); line-height: 1.45; color: var(--ink-soft); font-weight: 400; }
+
+  .label-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ===== Layout ===== */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .narrow { max-width: 760px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 640px) {
+    .container, .narrow { padding: 0 20px; }
+    body { font-size: 16px; }
+  }
+
+  section { padding: clamp(80px, 10vh, 140px) 0; }
+  section.tight { padding: clamp(60px, 7vh, 100px) 0; }
+
+  hr.rule {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+
+  /* ===== Navigation ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 241, 232, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .nav-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  .nav-brand-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-tag {
+    font-size: 11px;
+    color: var(--ink-muted);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--cream-soft) !important;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--accent); }
+  @media (max-width: 768px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding: clamp(60px, 8vh, 100px) 0 clamp(80px, 10vh, 140px);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+  .hero h1 .accent {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item .lbl {
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .hero-meta-item .val {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--ink);
+  }
+
+  /* Hero visual: layered cards */
+  .hero-visual {
+    position: relative;
+    height: 520px;
+  }
+  .hero-card {
+    position: absolute;
+    background: var(--ink);
+    color: var(--cream-soft);
+    border-radius: 4px;
+    padding: 28px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.25), 0 8px 20px -8px rgba(0,0,0,0.15);
+  }
+  .hero-card-1 {
+    top: 0; left: 0; right: 60px; bottom: 100px;
+    background: var(--ink);
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(6,182,212,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255,107,157,0.08) 0%, transparent 40%);
+  }
+  .hero-card-1 .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 84px;
+    font-weight: 600;
+    color: var(--accent-bright);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hero-card-1 .stat-num sup { font-size: 0.45em; vertical-align: super; }
+  .hero-card-1 .stat-label {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.4;
+    max-width: 240px;
+  }
+  .hero-card-1 .stat-eyebrow {
+    font-size: 10px;
+    color: var(--accent-bright);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .hero-card-2 {
+    bottom: 0; right: 0; left: 80px;
+    background: var(--cream-soft);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    box-shadow: 0 12px 36px -12px rgba(0,0,0,0.12);
+    padding: 24px 28px;
+  }
+  .hero-card-2 .mini-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .hero-card-2 .mini-row:last-child { border-bottom: 0; }
+  .hero-card-2 .mini-label { font-size: 13px; color: var(--ink-muted); }
+  .hero-card-2 .mini-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .hero-card-2 .mini-val.bad { color: var(--danger); }
+  .hero-card-2 .mini-val.good { color: var(--good); }
+  .hero-card-2-title {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero-card-2-sub {
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .hero-visual { height: 380px; }
+    .hero-card-1 { right: 30px; bottom: 90px; }
+    .hero-card-2 { left: 50px; }
+  }
+
+  /* ===== Problem section ===== */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .stat-stack > div {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat-stack > div:last-child { border-bottom: 0; }
+  .stat-stack .num {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-stack .lbl {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+  .stat-stack sup { font-size: 0.35em; vertical-align: super; color: var(--ink-dim); margin-left: 2px; }
+
+  /* ===== Pull quote moment ===== */
+  .pullquote-section {
+    background: var(--cream-warm);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .pullquote {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1.05;
+    color: var(--ink);
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  .pullquote .em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .pullquote .strikethrough {
+    color: var(--ink-muted);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .pullquote-attribution {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-align: center;
+    margin-top: 40px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== Architecture ===== */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .arch-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .arch-visual {
+    background: var(--dark);
+    border-radius: 4px;
+    padding: 40px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.25);
+  }
+  .arch-svg-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .arch-list { list-style: none; padding: 0; margin: 0; }
+  .arch-list li {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .arch-list li:last-child { border-bottom: 0; }
+  .arch-list .num {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .arch-list .layer-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .arch-list .layer-desc {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  /* ===== Mechanism / details ===== */
+  .mech-section { background: var(--cream-soft); }
+  details.spec {
+    border-top: 1px solid var(--rule);
+    padding: 24px 0;
+  }
+  details.spec:last-of-type { border-bottom: 1px solid var(--rule); }
+  details.spec[open] summary svg { transform: rotate(180deg); }
+  details.spec summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  details.spec summary::-webkit-details-marker { display: none; }
+  details.spec summary svg {
+    transition: transform 0.2s;
+    color: var(--ink-muted);
+  }
+  details.spec .body {
+    padding-top: 20px;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  details.spec .body p { margin: 0 0 12px; }
+  details.spec .body strong { color: var(--ink); font-weight: 600; }
+
+  /* ===== Embedded model ===== */
+  .model-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 100px 0 80px;
+  }
+  .model-section .label-eyebrow { color: var(--accent-bright); }
+  .model-section h2 { color: var(--cream); }
+  .model-section .lede { color: rgba(245, 241, 232, 0.7); }
+  .model-frame {
+    margin-top: 56px;
+    background: #0B1929;
+    border: 1px solid #213358;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px -20px rgba(0,0,0,0.4);
+  }
+  .model-frame iframe {
+    display: block;
+    width: 100%;
+    height: 880px;
+    border: 0;
+  }
+  .model-launch {
+    margin-top: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-bright);
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .model-launch:hover { opacity: 0.7; }
+
+  /* ===== Impact ===== */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 56px;
+  }
+  @media (max-width: 900px) {
+    .impact-grid { grid-template-columns: 1fr; }
+  }
+  .impact-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--rule);
+    padding: 40px;
+    border-radius: 4px;
+  }
+  .impact-card .num {
+    font-family: 'Fraunces', serif;
+    font-size: 80px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .impact-card .title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 16px 0 12px;
+    color: var(--ink);
+  }
+  .impact-card .desc {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+  .cost-bars {
+    margin-top: 64px;
+  }
+  .cost-bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 100px;
+    gap: 24px;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .cost-bar-row .lbl { font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink); font-weight: 500; }
+  .cost-bar-row .bar-track {
+    height: 32px;
+    background: var(--cream-warm);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .cost-bar-row .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+  .cost-bar-row .val { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: var(--ink); font-weight: 500; text-align: right; }
+
+  /* ===== Market section ===== */
+  .market-section { background: var(--cream-warm); }
+  .market-disclaimer {
+    background: var(--cream-soft);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--warn);
+    padding: 20px 24px;
+    margin: 40px 0 56px;
+    border-radius: 0 4px 4px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .market-disclaimer strong { color: var(--warn); font-weight: 600; }
+  .tam-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 900px) {
+    .tam-grid { grid-template-columns: 1fr; }
+  }
+  .tam-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    border-radius: 4px;
+    border-top: 3px solid var(--rule);
+  }
+  .tam-card.sam { border-top-color: var(--accent); }
+  .tam-card.som { border-top-color: var(--accent-bright); }
+  .tam-card .tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .tam-card.sam .tag { color: var(--accent); }
+  .tam-card.som .tag { color: var(--accent-bright); }
+  .tam-card .num {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .tam-card .when {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-muted);
+    margin: 6px 0 16px;
+  }
+  .tam-card .desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* Funding ladder */
+  .ladder { margin-top: 64px; }
+  .ladder table { width: 100%; border-collapse: collapse; }
+  .ladder thead {
+    border-bottom: 1px solid var(--ink);
+  }
+  .ladder th {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 12px 16px 12px 0;
+  }
+  .ladder td {
+    padding: 18px 16px 18px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .ladder tr.current td {
+    background: var(--accent-soft);
+    border-bottom-color: var(--accent);
+  }
+  .ladder .stage-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .ladder .amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .ladder .when-cell {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+  .ladder tr.current .stage-name { color: var(--accent); }
+  @media (max-width: 768px) {
+    .ladder table, .ladder thead, .ladder tbody, .ladder th, .ladder td, .ladder tr {
+      display: block;
+    }
+    .ladder thead { display: none; }
+    .ladder tr {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .ladder td { border: 0; padding: 4px 0; }
+  }
+
+  /* ===== Roadmap ===== */
+  .stage-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  @media (max-width: 700px) {
+    .stage-row { grid-template-columns: 1fr; gap: 8px; }
+  }
+  .stage-row:last-child { border-bottom: 0; }
+  .stage-row .when-cell {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-muted);
+  }
+  .stage-row .name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .stage-row .desc {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+  .stage-row .status {
+    text-align: right;
+  }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .status-pill.done { background: #D1FAE5; color: var(--good); }
+  .status-pill.active { background: var(--accent-soft); color: var(--accent); }
+  .status-pill.future { background: var(--cream-warm); color: var(--ink-muted); }
+  .status-pill .ring {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .status-pill.active .ring {
+    animation: pulse 1.6s infinite;
+  }
+
+  /* ===== Team ===== */
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 56px;
+  }
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+  .team-card {
+    padding: 32px;
+    background: var(--cream-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    border-top: 3px solid var(--rule);
+  }
+  .team-card.committed { border-top-color: var(--good); }
+  .team-card.seeking { border-top-color: var(--warn); }
+  .team-card .tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+  }
+  .team-card.committed .tag { color: var(--good); }
+  .team-card.seeking .tag { color: var(--warn); }
+  .team-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  .team-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .team-card li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .team-card li:last-child { border-bottom: 0; }
+  .team-card li strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  /* ===== Risks ===== */
+  .risk-row {
+    display: grid;
+    grid-template-columns: 1fr 90px 1.4fr;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .risk-row { grid-template-columns: 1fr; gap: 8px; }
+  }
+  .risk-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .risk-mit {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+  .severity-pill {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+  .severity-pill.high { background: var(--danger); color: white; }
+  .severity-pill.med { background: var(--warn); color: white; }
+  .severity-pill.low { background: var(--good); color: white; }
+  .severity-pill.unk { background: var(--ink-muted); color: white; }
+
+  /* ===== Resources ===== */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .resource-card {
+    background: var(--cream-soft);
+    border: 1px solid var(--rule);
+    padding: 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .resource-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(0,0,0,0.08);
+  }
+  .resource-card .filetype {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .resource-card .name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .resource-card .meta {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+  .resource-card .arrow {
+    margin-top: auto;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  /* ===== Contact ===== */
+  .contact-section {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .contact-section .label-eyebrow { color: var(--accent-bright); }
+  .contact-section h2 { color: var(--cream); }
+  .contact-section .lede { color: rgba(245, 241, 232, 0.75); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 56px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .ask-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .ask-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(245, 241, 232, 0.12);
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+  }
+  .ask-list li:last-child { border-bottom: 0; }
+  .ask-list .ask-num {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--accent-bright);
+    font-weight: 500;
+  }
+  .ask-list .ask-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .ask-list .ask-desc {
+    font-size: 14px;
+    color: rgba(245, 241, 232, 0.7);
+    line-height: 1.55;
+  }
+
+  .contact-form {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 32px;
+    border-radius: 4px;
+  }
+  .contact-form label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245, 241, 232, 0.6);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--cream);
+    padding: 12px 14px;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-bright);
+    background: rgba(255,255,255,0.06);
+  }
+  .contact-form textarea { resize: vertical; min-height: 100px; }
+  .contact-form button {
+    width: 100%;
+    background: var(--accent-bright);
+    color: var(--dark);
+    border: none;
+    padding: 14px;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .contact-form button:hover { background: white; }
+  .contact-direct {
+    margin-top: 16px;
+    font-size: 13px;
+    color: rgba(245, 241, 232, 0.6);
+    text-align: center;
+  }
+  .contact-direct a {
+    color: var(--accent-bright);
+    text-decoration: none;
+  }
+  .contact-direct a:hover { text-decoration: underline; }
+
+  /* ===== Footer ===== */
+  footer {
+    background: var(--cream-warm);
+    padding: 64px 0 32px;
+    border-top: 1px solid var(--rule);
+  }
+  footer .container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 768px) {
+    footer .container { grid-template-columns: 1fr; gap: 32px; }
+  }
+  footer h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+  footer p {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    margin: 0 0 8px;
+  }
+  footer ul { list-style: none; padding: 0; margin: 0; }
+  footer li { padding: 4px 0; font-size: 13px; }
+  footer a { color: var(--ink-muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+  footer .bottom {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--ink-dim);
+    grid-column: 1 / -1;
+  }
+
+  /* ===== Reveal animation ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <span class="nav-brand-pill">
+        SHiP
+        <span class="nav-tag">— Silica-Histidine Polyplex</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#model">Model</a>
+      <a href="#market">Market</a>
+      <a href="#team">Team</a>
+      <a href="#contact" class="nav-cta">Get involved</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          <span class="label-eyebrow">Pre-seed proposal · April 2026</span>
+        </div>
+        <h1 class="display h1">
+          An <span class="accent">oxidation-proof</span> delivery vehicle for ambient-temperature mRNA vaccines.
+        </h1>
+        <p class="lede" style="margin-top: 32px; max-width: 600px;">
+          SHiP replaces the lipid nanoparticle. By removing every chemical bond that oxidizes, it offers a path to mRNA vaccines that survive twelve months at room temperature — not a marginal improvement, a structural one.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <div class="lbl">Stage</div>
+            <div class="val">In silico validation</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="lbl">Target market</div>
+            <div class="val">Pandemic preparedness</div>
+          </div>
+          <div class="hero-meta-item">
+            <div class="lbl">First check</div>
+            <div class="val">$50K pre-seed</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card hero-card-1">
+          <div class="stat-eyebrow">Headline result</div>
+          <div class="stat-num">10<sup>13</sup>×</div>
+          <div class="stat-label">
+            lower oxidation initiation rate vs. current mRNA-LNP formulations, by component-level audit.
+          </div>
+        </div>
+        <div class="hero-card hero-card-2">
+          <div class="hero-card-2-sub">Predicted shelf life · 25 °C</div>
+          <div class="mini-row">
+            <span class="mini-label">Current mRNA-LNP</span>
+            <span class="mini-val bad">0.8 mo</span>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">SHiP (median)</span>
+            <span class="mini-val good">58 mo</span>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Design target</span>
+            <span class="mini-val">≥12 mo</span>
+          </div>
+          <div class="mini-row">
+            <span class="mini-label">Confidence interval</span>
+            <span class="mini-val">[24, 102] mo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- ===== PROBLEM ===== -->
+<section id="problem" class="tight">
+  <div class="container">
+    <div class="problem-grid">
+      <div>
+        <div class="label-eyebrow" style="margin-bottom: 24px;">The problem</div>
+        <h2 class="display h2">mRNA vaccines live or die by the cold chain.</h2>
+        <p style="margin-top: 32px; font-size: 18px; color: var(--ink-soft); line-height: 1.65;">
+          Current mRNA vaccines must be stored between −70 °C and −20 °C. The reason isn't engineering — it's chemistry. The ionizable lipids that make these vaccines work (SM-102, ALC-0315, DLin-MC3-DMA) all share a structural feature: unsaturated fatty tails with bis-allylic C–H bonds at roughly 75 kcal/mol. These bonds are what allow the lipid bubble to release its mRNA cargo inside cells. They are also what allow oxygen to silently tear the molecule apart on a pharmacy shelf.
+        </p>
+        <p style="margin-top: 16px; font-size: 18px; color: var(--ink-soft); line-height: 1.65;">
+          Cooling slows oxidation. Antioxidants slow oxidation. Better packaging slows oxidation. Nothing stops it — because the substrate is built into the medicine. Every existing approach is engineering control over a chemistry that fundamentally wants to fail.
+        </p>
+      </div>
+      <div class="stat-stack">
+        <div>
+          <div class="num">3 billion</div>
+          <div class="lbl">people live in regions where reliable ultra-cold storage is absent or prohibitively expensive<sup>1</sup></div>
+        </div>
+        <div>
+          <div class="num">~50%</div>
+          <div class="lbl">of vaccines are discarded globally due to temperature failures (WHO indicative rate, blended)<sup>2,3</sup></div>
+        </div>
+        <div>
+          <div class="num">$20–35B</div>
+          <div class="lbl">annual pharmaceutical losses from cold-chain breakdowns<sup>3</sup></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSIGHT / PULL QUOTE ===== -->
+<section class="pullquote-section tight">
+  <div class="narrow" style="text-align: center;">
+    <div class="label-eyebrow" style="margin-bottom: 32px;">The insight</div>
+    <p class="pullquote">
+      Don't <span class="strikethrough">slow the reaction.</span><br />
+      <span class="em">Remove</span> the substrate.
+    </p>
+    <p style="margin-top: 56px; font-size: 18px; color: var(--ink-soft); line-height: 1.65;">
+      Every existing approach to mRNA vaccine stability tries to make oxidation happen more slowly. SHiP eliminates the substrate entirely. There is no oxidizable bond anywhere in the delivery vehicle — not in the polymer, not in the shell, not in the matrix. There is nothing for oxygen to attack, regardless of how much of it gets into the vial.
+    </p>
+    <p class="pullquote-attribution">SHiP design principle</p>
+  </div>
+</section>
+
+<!-- ===== ARCHITECTURE ===== -->
+<section id="architecture">
+  <div class="container">
+    <div style="margin-bottom: 56px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">The architecture</div>
+      <h2 class="display h2">Four layers, zero oxidizable bonds.</h2>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-visual">
+        <!-- Inline SVG cross-section of the SHiP particle -->
+        <svg class="arch-svg-wrap" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="trehGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FEF3C7" stop-opacity="0.0" />
+              <stop offset="60%" stop-color="#FEF3C7" stop-opacity="0.06" />
+              <stop offset="100%" stop-color="#FEF3C7" stop-opacity="0.18" />
+            </radialGradient>
+            <radialGradient id="coreGrad" cx="40%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#67E8F9" />
+              <stop offset="50%" stop-color="#06B6D4" />
+              <stop offset="100%" stop-color="#0E7490" />
+            </radialGradient>
+            <radialGradient id="hilight" cx="30%" cy="30%" r="40%">
+              <stop offset="0%" stop-color="white" stop-opacity="0.4" />
+              <stop offset="100%" stop-color="white" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <!-- Trehalose halo -->
+          <circle cx="200" cy="200" r="170" fill="url(#trehGlow)" />
+          <!-- Sugar dots -->
+          <g fill="#FEF3C7" opacity="0.6">
+            <circle cx="80" cy="120" r="2" /><circle cx="320" cy="100" r="1.5" />
+            <circle cx="350" cy="240" r="2" /><circle cx="60" cy="280" r="1.5" />
+            <circle cx="100" cy="340" r="2" /><circle cx="300" cy="360" r="1.8" />
+            <circle cx="40" cy="200" r="1.5" /><circle cx="370" cy="180" r="2" />
+            <circle cx="140" cy="80" r="1.5" /><circle cx="260" cy="60" r="2" />
+            <circle cx="380" cy="320" r="1.5" /><circle cx="20" cy="160" r="1.5" />
+            <circle cx="190" cy="370" r="2" /><circle cx="220" cy="40" r="1.5" />
+            <circle cx="50" cy="60" r="1.5" /><circle cx="345" cy="65" r="1.5" />
+            <circle cx="60" cy="350" r="1.5" /><circle cx="365" cy="335" r="2" />
+          </g>
+
+          <!-- PEG outer ring (back side) -->
+          <path d="M 200,80 A 120,120 0 1,0 200,320 L 200,320 L 200,80 Z" 
+                fill="#A5B4FC" opacity="0.4" />
+          <!-- Polymer dark base -->
+          <path d="M 200,90 A 110,110 0 1,0 200,310 L 200,310 L 200,90 Z" 
+                fill="#0E7490" opacity="0.5" />
+          <!-- Core back hemisphere -->
+          <path d="M 200,110 A 90,90 0 1,0 200,290 L 200,290 L 200,110 Z" 
+                fill="url(#coreGrad)" />
+
+          <!-- Specular highlight on the back hemisphere -->
+          <ellipse cx="135" cy="155" rx="40" ry="30" fill="url(#hilight)" opacity="0.9" />
+
+          <!-- Cutaway wedge: cross-section showing layers -->
+          <!-- Trehalose layer (outermost) -->
+          <path d="M 200,200 L 200,80 A 120,120 0 0,1 304,260 Z" 
+                fill="#FEF3C7" opacity="0.3" />
+          <!-- PEG ring -->
+          <path d="M 200,200 L 200,90 A 110,110 0 0,1 295,255 Z" 
+                fill="#A5B4FC" opacity="0.85" />
+          <!-- Silica shell -->
+          <path d="M 200,200 L 200,100 A 100,100 0 0,1 287,250 Z" 
+                fill="#CBD5E1" />
+          <!-- Silica radial texture -->
+          <g stroke="#F1F5F9" stroke-width="0.6" opacity="0.55">
+            <line x1="200" y1="200" x2="200" y2="100" />
+            <line x1="200" y1="200" x2="217" y2="101" />
+            <line x1="200" y1="200" x2="234" y2="105" />
+            <line x1="200" y1="200" x2="250" y2="113" />
+            <line x1="200" y1="200" x2="265" y2="124" />
+            <line x1="200" y1="200" x2="277" y2="138" />
+            <line x1="200" y1="200" x2="285" y2="155" />
+            <line x1="200" y1="200" x2="290" y2="173" />
+            <line x1="200" y1="200" x2="291" y2="192" />
+            <line x1="200" y1="200" x2="290" y2="211" />
+            <line x1="200" y1="200" x2="287" y2="230" />
+            <line x1="200" y1="200" x2="281" y2="246" />
+          </g>
+          <!-- Polyplex core -->
+          <path d="M 200,200 L 200,110 A 90,90 0 0,1 277,242 Z" 
+                fill="#0E7490" />
+          <!-- mRNA strand inside core -->
+          <g stroke="#FF4081" stroke-width="2.2" fill="none" opacity="0.95" stroke-linecap="round">
+            <path d="M 230,140 Q 210,160 235,180 T 220,210 Q 245,225 230,245" />
+            <path d="M 250,150 Q 230,170 255,195 T 240,225" opacity="0.7" />
+          </g>
+          <!-- mRNA dots -->
+          <g fill="#FF4081">
+            <circle cx="232" cy="145" r="2" /><circle cx="218" cy="170" r="2" />
+            <circle cx="240" cy="190" r="2" /><circle cx="225" cy="215" r="2" />
+            <circle cx="248" cy="160" r="1.6" opacity="0.7" /><circle cx="245" cy="220" r="1.8" opacity="0.7" />
+          </g>
+
+          <!-- Mannose ligands on PEG outer surface (back side - small dots) -->
+          <g fill="#FBBF24" stroke="#92400E" stroke-width="0.5">
+            <circle cx="116" cy="108" r="6" />
+            <circle cx="80" cy="200" r="6" />
+            <circle cx="125" cy="305" r="5.5" />
+            <circle cx="195" cy="320" r="6" />
+            <circle cx="120" cy="160" r="5" />
+            <circle cx="100" cy="255" r="5.5" />
+            <circle cx="170" cy="80" r="5" />
+            <circle cx="100" cy="140" r="4.5" />
+            <circle cx="80" cy="240" r="5" />
+            <circle cx="160" cy="320" r="5" />
+          </g>
+        </svg>
+      </div>
+      <div>
+        <ol class="arch-list">
+          <li>
+            <span class="num">01</span>
+            <div>
+              <div class="layer-name">pHK polymer core</div>
+              <div class="layer-desc">A saturated chain of poly(L-histidine-co-L-lysine). Lysine condenses mRNA via electrostatic collapse; histidine's imidazole (pKa ≈ 6.0) acts as a pH-activated switch that drives endosomal escape inside the cell.</div>
+            </div>
+          </li>
+          <li>
+            <span class="num">02</span>
+            <div>
+              <div class="layer-name">Biomimetic silica shell</div>
+              <div class="layer-desc">A ~5 nm glass coating that the polymer grows on its own surface — same biochemistry diatoms use. Silicon is already in its highest oxidation state. The shell is thermodynamically oxidation-terminal, then dissolves in the endosome to release cargo.</div>
+            </div>
+          </li>
+          <li>
+            <span class="num">03</span>
+            <div>
+              <div class="layer-name">Trehalose glass matrix</div>
+              <div class="layer-desc">The sugar tardigrades use to survive desiccation. At <1% residual moisture, forms a glassy solid (Tg > 70 °C) that immobilizes every particle and freezes molecular motion at room temperature.</div>
+            </div>
+          </li>
+          <li>
+            <span class="num">04</span>
+            <div>
+              <div class="layer-name">Mannose surface targeting</div>
+              <div class="layer-desc">PEG chains decorated with mannose. Recognized by CD206 on dendritic cells — antigen-presenting cells take SHiP up because they evolved to detect mannose-rich pathogens. The right cargo, to the right cell, by mimicry.</div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule" />
+
+<!-- ===== MECHANISM (collapsible details) ===== -->
+<section class="mech-section tight">
+  <div class="narrow">
+    <div class="label-eyebrow" style="margin-bottom: 16px;">The science</div>
+    <h2 class="display h2">For the formulation scientists in the room.</h2>
+    <p class="lede" style="margin-top: 24px; max-width: 640px;">
+      Each layer earns its place. Every bond was chosen against the same constraint: do its job without contributing a kinetically accessible C–H abstraction site. The depth is here for those who want it.
+    </p>
+
+    <div style="margin-top: 56px;">
+      <details class="spec">
+        <summary>
+          <span>Why the bis-allylic bond is the architectural problem</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="body">
+          <p>Lipid peroxidation is a radical chain reaction that initiates at the weakest C–H bond in the molecule. In the unsaturated tails of SM-102, ALC-0315, and DLin-MC3-DMA, that's the bis-allylic position — a hydrogen on a carbon flanked by two C=C double bonds. <strong>Bond dissociation energy: ~75 kcal/mol.</strong> Once abstracted, the resulting carbon radical reacts with O₂ to form a peroxyl radical, which abstracts another bis-allylic hydrogen, and the chain propagates.</p>
+          <p>Saturated C–H bonds in aliphatic hydrocarbons sit at <strong>~98 kcal/mol</strong>. That 23 kcal/mol gap corresponds to a rate ratio of order 10¹⁵ at ambient temperature. It's the same chemistry that makes flaxseed oil rancid in months and coconut oil shelf-stable for years. SHiP's saturated polymer, silica shell, PEG, mannose, and trehalose contain zero bis-allylic positions.</p>
+        </div>
+      </details>
+
+      <details class="spec">
+        <summary>
+          <span>Why histidine specifically — the proton-sponge mechanism</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="body">
+          <p>Histidine's imidazole side chain has a pKa of approximately 6.0 — the lowest pKa of any standard amino acid. This is the single most important property in the entire SHiP design, because it sits in exactly the right window: neutral at extracellular pH (7.4), beginning to protonate in the early endosome (pH 6.0–6.5), fully protonated in the late endosome (pH 5.0).</p>
+          <p>When the polyplex is taken up by an APC, the V-ATPase pumps protons into the endosome. The histidine residues buffer these incoming protons; chloride ions flow in to balance charge; water follows by osmosis; the endosome swells and ruptures. Originally proposed by Behr (1995) for PEI; refined since for histidylated polylysine systems (Midoux & Monsigny, 1999).</p>
+          <p><strong>Caveat:</strong> the proton sponge mechanism is contested in the literature. SHiP includes a fallback design with a GALA-style fusogenic peptide conjugate if proton-sponge alone proves insufficient.</p>
+        </div>
+      </details>
+
+      <details class="spec">
+        <summary>
+          <span>The lysine dual role — silica nucleation and mRNA condensation</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="body">
+          <p>Lysine's ε-amine (pKa ≈ 10.5) is positively charged at physiological pH — which lets it grab and compact negatively charged mRNA via electrostatic collapse at N/P ratio ≈ 8.</p>
+          <p>The same primary amines also catalyze biomimetic silicification. Diatoms use this exact chemistry: silaffin peptides with surface amines deprotonate water at the Si surface and accelerate Si–O–Si condensation at neutral pH. When TMOS is added to the SHiP polyplex suspension, silica preferentially nucleates on the particle surface rather than in bulk solution. <strong>The particle grows its own armor.</strong></p>
+        </div>
+      </details>
+
+      <details class="spec">
+        <summary>
+          <span>The trehalose-glass / anhydrobiosis precedent</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="body">
+          <p>Tardigrades, brine shrimp, and resurrection plants survive near-complete desiccation by accumulating trehalose to roughly 20% of dry weight. The mechanism is twofold: water replacement at biomolecule surfaces (via hydrogen bonding through trehalose's eight hydroxyls), and vitrification — formation of an amorphous glass with Tg above 100 °C at low residual moisture.</p>
+          <p>Below Tg, molecular diffusion is arrested on pharmaceutical timescales. Particles can't aggregate, fuse, or react. Trehalose is non-reducing (won't Maillard with mRNA bases), GRAS, and already in approved biologics including Herceptin and Avastin. The novelty in SHiP isn't trehalose itself — it's combining trehalose vitrification with a non-oxidizable carrier so that the only remaining failure mode is bounded.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMBEDDED MODEL ===== -->
+<section id="model" class="model-section">
+  <div class="container">
+    <div style="max-width: 760px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Interactive model</div>
+      <h2 class="display h2" style="color: var(--cream);">Test the assumptions yourself.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        Every rate constant and activation energy in the model is editable. Move the sliders. Watch the predicted shelf life respond. The places where SHiP's claims hinge on uncertain inputs are visible — by design.
+      </p>
+    </div>
+    <div class="model-frame">
+      <iframe src="model.html" title="SHiP interactive stability model" loading="lazy"></iframe>
+    </div>
+    <a href="model.html" target="_blank" rel="noopener" class="model-launch">
+      Open model in full window
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===== IMPACT ===== -->
+<section>
+  <div class="container">
+    <div style="max-width: 720px; margin-bottom: 56px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Predicted impact</div>
+      <h2 class="display h2">If the platform validates, the math is large.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        The case below assumes SHiP achieves a 25 °C shelf life of at least 12 months in wet-lab characterization — the stated design target. Numbers are projections, not commitments.
+      </p>
+    </div>
+
+    <div class="impact-grid">
+      <div class="impact-card">
+        <div class="num">~$7</div>
+        <div class="title">cost savings per delivered dose</div>
+        <div class="desc">In LMICs, the cold chain currently absorbs $5–8 per dose of the cost of mRNA vaccines. SHiP eliminates most of that, even after accounting for higher API cost from lower potency.<sup>4</sup></div>
+      </div>
+      <div class="impact-card">
+        <div class="num">200–800K</div>
+        <div class="title">excess deaths potentially averted</div>
+        <div class="desc">In a moderate-severity pandemic where mRNA-LNP coverage is constrained to ~60% of the global population by cold-chain access, an ambient-stable alternative enabling 15–25% additional coverage falls in this range. Highly scenario-dependent.</div>
+      </div>
+    </div>
+
+    <!-- Cost-per-dose visualization -->
+    <div class="cost-bars">
+      <h3 class="display h3" style="margin-bottom: 8px;">Cost per delivered dose, LMIC scenario</h3>
+      <p style="color: var(--ink-muted); font-size: 14px; margin-bottom: 32px;">
+        Estimated total cost including API, manufacturing, cold-chain logistics, and embedded wastage. SHiP assumes 2× higher API cost (lower potency) but ~5× savings on logistics and wastage.
+      </p>
+      <div class="cost-bar-row">
+        <span class="lbl">Current LNP</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 100%; background: var(--danger);"></div>
+        </div>
+        <span class="val">$10.30</span>
+      </div>
+      <div class="cost-bar-row">
+        <span class="lbl">SHiP</span>
+        <div class="bar-track">
+          <div class="bar-fill" style="width: 29%; background: var(--accent);"></div>
+        </div>
+        <span class="val">$3.00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARKET ===== -->
+<section id="market" class="market-section">
+  <div class="container">
+    <div style="max-width: 720px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Market opportunity</div>
+      <h2 class="display h2">A growing market with a structural distribution problem.</h2>
+    </div>
+
+    <div class="market-disclaimer">
+      <strong>A note on these numbers.</strong> The figures below are projections based on third-party market research (Fortune Business Insights, Mordor Intelligence, IQVIA) combined with our analysis of the cold-chain-constrained share of mRNA vaccine demand. They describe the commercial case the platform <em>could</em> make if validated — not revenue we are forecasting. SHiP is at pre-seed stage with computational evidence only.
+    </div>
+
+    <div class="tam-grid">
+      <div class="tam-card">
+        <div class="tag">TAM</div>
+        <div class="num">$25B</div>
+        <div class="when">by 2034</div>
+        <div class="desc">Total global mRNA vaccine market, all carriers.<sup>5</sup></div>
+      </div>
+      <div class="tam-card sam">
+        <div class="tag">SAM</div>
+        <div class="num">$4–8B</div>
+        <div class="when">by 2030</div>
+        <div class="desc">mRNA doses delivered where cold chain is the binding constraint: LMICs, rural distribution, pandemic stockpiles.</div>
+      </div>
+      <div class="tam-card som">
+        <div class="tag">SOM (10-yr)</div>
+        <div class="num">$0.4–1.5B</div>
+        <div class="when">realistic capture</div>
+        <div class="desc">Default vaccine carrier in markets where cold chain is binding and LNP-grade potency is not required.</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 16px; color: var(--ink-soft); font-style: italic;">
+      SHiP doesn't need to beat LNPs on potency. It needs to be the default carrier where cold chain is the binding constraint.
+    </p>
+
+    <!-- Funding ladder -->
+    <div class="ladder">
+      <h3 class="display h3" style="margin-bottom: 12px;">From $50K to a real company — the honest map.</h3>
+      <p style="color: var(--ink-muted); font-size: 14px; margin-bottom: 32px; max-width: 640px;">
+        Each stage is conditional on the previous stage's data package. We are raising at the pre-seed stage. Each subsequent stage is plotted but contingent.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Stage</th>
+            <th>Amount</th>
+            <th>Source</th>
+            <th>Use of funds</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="current">
+            <td><span class="stage-name">Pre-seed</span></td>
+            <td><span class="amount">&lt;$50K</span></td>
+            <td>Student grants, accelerators, angels</td>
+            <td>Computational validation, mentor review, provisional patent filing</td>
+            <td><span class="when-cell">Now – Month 6</span></td>
+          </tr>
+          <tr>
+            <td><span class="stage-name">Seed</span></td>
+            <td><span class="amount">$500K–$1M</span></td>
+            <td>Bio-focused angels, Nucleate Bio, CEPI small-grant programs</td>
+            <td>Wet-lab proof of concept, founding team, preliminary in-vitro data package</td>
+            <td><span class="when-cell">Month 6–18</span></td>
+          </tr>
+          <tr>
+            <td><span class="stage-name">Series A</span></td>
+            <td><span class="amount">$3–5M</span></td>
+            <td>Seed-stage bio VC, CEPI, BARDA</td>
+            <td>Independent lab, 4–6 hires, IP suite, N/P ratio + encapsulation efficiency optimization</td>
+            <td><span class="when-cell">Year 2–3</span></td>
+          </tr>
+          <tr>
+            <td><span class="stage-name">Series B</span></td>
+            <td><span class="amount">$20–40M</span></td>
+            <td>Later-stage bio VC, strategic CVC (Pfizer Ventures, etc.)</td>
+            <td>IND-enabling: GLP toxicology, NHP immunogenicity, CMC scale-up</td>
+            <td><span class="when-cell">Year 3–5</span></td>
+          </tr>
+          <tr>
+            <td><span class="stage-name">Series C / Exit</span></td>
+            <td><span class="amount">$100M+</span></td>
+            <td>Tier-1 bio VC or pharma acquisition</td>
+            <td>Phase 1/2 clinical, first indication filing</td>
+            <td><span class="when-cell">Year 5–8</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 20px; font-size: 13px; color: var(--ink-muted); font-style: italic;">
+        Comparable platform acquisitions: Translate Bio acquired by Sanofi for $3.2B (2021).
+      </p>
+      <p style="margin-top: 32px; padding: 16px 20px; background: var(--cream-soft); border-left: 3px solid var(--accent); font-size: 14px; color: var(--ink-soft); border-radius: 0 4px 4px 0;">
+        For the full commercial logic — partners, channels, customer segments, cost structure, and revenue streams — see the <a href="SHiP_business_model_canvas.pdf" target="_blank" rel="noopener" style="color: var(--accent); font-weight: 500;">single-page business model canvas</a>. It describes the target-state company at first commercial product, not the present.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section>
+  <div class="container">
+    <div style="max-width: 720px; margin-bottom: 48px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Where we are right now</div>
+      <h2 class="display h2">An honest map.</h2>
+    </div>
+    <div>
+      <div class="stage-row">
+        <div class="when-cell">Now</div>
+        <div>
+          <div class="name">Computational validation</div>
+          <div class="desc">Multi-pathway Arrhenius model with Monte Carlo uncertainty. Oxidation susceptibility audit comparing every component of SHiP and current LNP. Full proposal, scientific rationale, and interactive model published.</div>
+        </div>
+        <div class="status">
+          <span class="status-pill done"><span class="ring"></span>Done</span>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="when-cell">Q2 2026</div>
+        <div>
+          <div class="name">Mentor review and provisional patent</div>
+          <div class="desc">Critical review by an LNP formulation expert. USPTO provisional filing through pro-bono student counsel. Refinement of the design based on expert feedback.</div>
+        </div>
+        <div class="status">
+          <span class="status-pill active"><span class="ring"></span>Active</span>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="when-cell">Q3–Q4 2026</div>
+        <div>
+          <div class="name">Wet-lab proof of concept</div>
+          <div class="desc">Synthesize pHK polymer at university scale. Verify polyplex formation by DLS. Apply silica shell. Lyophilize in trehalose. First accelerated stability data at 40 °C.</div>
+        </div>
+        <div class="status">
+          <span class="status-pill future"><span class="ring"></span>Planned</span>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="when-cell">2027</div>
+        <div>
+          <div class="name">In-vitro transfection</div>
+          <div class="desc">Demonstrate APC uptake via mannose receptor in dendritic cell line. Quantify endosomal escape and protein expression. Compare to LNP control.</div>
+        </div>
+        <div class="status">
+          <span class="status-pill future"><span class="ring"></span>Planned</span>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="when-cell">2028+</div>
+        <div>
+          <div class="name">IND-enabling and beyond</div>
+          <div class="desc">GLP toxicology, NHP immunogenicity, CMC scale-up, first indication filing. Full development path from §market.</div>
+        </div>
+        <div class="status">
+          <span class="status-pill future"><span class="ring"></span>Planned</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEAM ===== -->
+<section id="team" class="market-section">
+  <div class="container">
+    <div style="max-width: 720px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Team</div>
+      <h2 class="display h2">Honest about what's committed and what's missing.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        Overstating team is a mistake we won't make. The work to date has been done by one person; the work to come requires more.
+      </p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card committed">
+        <div class="tag">Committed</div>
+        <h3>Founder: Cyrus</h3>
+        <ul>
+          <li>
+            <strong>mRNA-LNP stability prediction tool</strong>
+            Biphasic Arrhenius model · MAE 4.52% · R² 0.848 across 36 data points · GVRSF 2026
+          </li>
+          <li>
+            <strong>ARXA</strong>
+            Targeted mRNA therapy for atherosclerosis reversal · founder
+          </li>
+          <li>
+            <strong>Tomo Cancer</strong>
+            3D mammography deployment program · founder
+          </li>
+          <li>
+            <strong>Project Think Youth</strong>
+            Nonprofit academic publishing platform for high school research · founder
+          </li>
+        </ul>
+      </div>
+
+      <div class="team-card seeking">
+        <div class="tag">Seeking</div>
+        <h3>The gaps this raise closes</h3>
+        <ul>
+          <li>
+            <strong>Scientific advisor</strong>
+            LNP formulation expertise. Targets: Cullis, Cheng, Blakney (UBC); Green (Hopkins).
+          </li>
+          <li>
+            <strong>Wet-lab partnership</strong>
+            UBC or equivalent facility with polymer synthesis and nanoparticle characterization capacity.
+          </li>
+          <li>
+            <strong>Graduate-level co-founder</strong>
+            PhD or postdoc willing to commit time once proof-of-concept data exists.
+          </li>
+          <li>
+            <strong>Patent counsel</strong>
+            Pro-bono student filings available via Smart & Biggar or Oyen Wiggs (Vancouver).
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RISKS ===== -->
+<section>
+  <div class="container">
+    <div style="max-width: 720px; margin-bottom: 48px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Key risks</div>
+      <h2 class="display h2">Every risk we've identified, and what kills each one.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        Naming risks well is a trust-builder. A proposal with no risks is a proposal that hasn't been thought through.
+      </p>
+    </div>
+    <div>
+      <div class="risk-row">
+        <div class="risk-name">Proton sponge efficacy insufficient for cytosolic mRNA delivery</div>
+        <div><span class="severity-pill high">High</span></div>
+        <div class="risk-mit">Fallback design incorporates a GALA-style or HA2-derived membrane-active peptide conjugate. Validated computationally in Phase 2 of the wet-lab plan.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Silica dissolution kinetics off-target in the endosome</div>
+        <div><span class="severity-pill med">Medium</span></div>
+        <div class="risk-mit">Tune shell thickness in the 3–8 nm range; incorporate amine dopants to accelerate dissolution. Empirically characterizable at low cost.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Potency gap exceeds 10× vs current LNP</div>
+        <div><span class="severity-pill med">Medium</span></div>
+        <div class="risk-mit">Pair platform with self-amplifying RNA payload to compensate. Cost-per-dose break-even at ~5× gap maintains commercial advantage.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Manufacturing reproducibility — silica shell uniformity batch-to-batch</div>
+        <div><span class="severity-pill med">Medium</span></div>
+        <div class="risk-mit">Process development priority in Series A. Diatom-inspired biomimetic silicification has been demonstrated reproducibly in academic labs; industrial scale-up is the open question.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Amorphous silica immunogenicity</div>
+        <div><span class="severity-pill low">Low</span></div>
+        <div class="risk-mit">Mesoporous silica nanoparticles are already in clinical trials. Precedent exists; characterization required but not novel.</div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-name">Someone else publishes a similar approach first</div>
+        <div><span class="severity-pill unk">Unknown</span></div>
+        <div class="risk-mit">Phase 1 includes systematic literature review (2020–2026). Provisional patent filing scheduled before broader external outreach.</div>
+      </div>
+    </div>
+    <p style="margin-top: 32px; padding: 20px 24px; background: var(--cream-warm); border-left: 3px solid var(--accent); font-size: 14px; color: var(--ink-soft); font-style: italic; border-radius: 0 4px 4px 0;">
+      <strong style="color: var(--ink); font-style: normal;">Kill criteria.</strong> If Phase 2 molecular dynamics shows that the proton sponge mechanism cannot rupture an endosomal vesicle even with the membrane-active peptide fallback, the project is terminated.
+    </p>
+  </div>
+</section>
+
+<!-- ===== RESOURCES ===== -->
+<section class="market-section tight">
+  <div class="container">
+    <div style="max-width: 720px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Resources</div>
+      <h2 class="display h2">For the full materials.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        The deliverables behind the website. All open-source, all citable, all available on request.
+      </p>
+    </div>
+    <div class="resources-grid">
+      <a href="SHiP_deck.pptx" class="resource-card" download>
+        <span class="filetype">PPTX · 24 slides</span>
+        <span class="name">Investor deck</span>
+        <span class="meta">Full pitch deck with citations and references.</span>
+        <span class="arrow">Download →</span>
+      </a>
+      <a href="SHiP_business_model_canvas.pdf" class="resource-card" target="_blank" rel="noopener">
+        <span class="filetype">PDF · 1 page</span>
+        <span class="name">Business model canvas</span>
+        <span class="meta">Strawman commercial logic at first commercial product. Target-state, iteration 1.</span>
+        <span class="arrow">View →</span>
+      </a>
+      <a href="proposal.html" class="resource-card" target="_blank" rel="noopener">
+        <span class="filetype">Web · ~22 pp</span>
+        <span class="name">Carrier proposal</span>
+        <span class="meta">Complete design specification, target product profile, and computational validation plan.</span>
+        <span class="arrow">Read →</span>
+      </a>
+      <a href="rationale.html" class="resource-card" target="_blank" rel="noopener">
+        <span class="filetype">Web</span>
+        <span class="name">Scientific rationale</span>
+        <span class="meta">Mechanism-by-mechanism defense of every design choice.</span>
+        <span class="arrow">Read →</span>
+      </a>
+      <a href="stability.html" class="resource-card" target="_blank" rel="noopener">
+        <span class="filetype">Web · 10 pp</span>
+        <span class="name">Stability analysis report</span>
+        <span class="meta">Full computational methodology, results, and limitations of the kinetic model.</span>
+        <span class="arrow">Read →</span>
+      </a>
+      <a href="model.html" target="_blank" rel="noopener" class="resource-card">
+        <span class="filetype">HTML · Interactive</span>
+        <span class="name">Stability model</span>
+        <span class="meta">Live, parameter-editable Monte Carlo model in your browser.</span>
+        <span class="arrow">Launch →</span>
+      </a>
+      <a href="part_a_oxidation_audit.py" class="resource-card" download>
+        <span class="filetype">Python · Source</span>
+        <span class="name">Source code</span>
+        <span class="meta">Reproduce every figure and number from the proposal yourself.</span>
+        <span class="arrow">Download →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div style="max-width: 720px;">
+      <div class="label-eyebrow" style="margin-bottom: 16px;">Get involved</div>
+      <h2 class="display h2" style="color: var(--cream);">SHiP is looking for its first collaborators.</h2>
+      <p class="lede" style="margin-top: 24px;">
+        If any of the following describes you, we'd value a conversation. The fastest way through is a short, specific email.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <div>
+        <h3 class="display h3" style="color: var(--cream); margin-bottom: 24px;">What we're looking for</h3>
+        <ul class="ask-list">
+          <li>
+            <span class="ask-num">01</span>
+            <div>
+              <div class="ask-name">Scientific advisor</div>
+              <div class="ask-desc">Faculty or industry expert in LNP formulation, polyplex delivery, or biomimetic silica. Even an hour of structured critical review is valuable.</div>
+            </div>
+          </li>
+          <li>
+            <span class="ask-num">02</span>
+            <div>
+              <div class="ask-name">Wet-lab partnership</div>
+              <div class="ask-desc">University or institutional lab with polymer synthesis, nanoparticle characterization (DLS / TEM), and cell culture capacity. Looking for a structured collaboration to execute the Phase 2 wet-lab plan.</div>
+            </div>
+          </li>
+          <li>
+            <span class="ask-num">03</span>
+            <div>
+              <div class="ask-name">Pre-seed funding</div>
+              <div class="ask-desc">$10K–$50K to complete the computational validation rigorously, file the provisional patent, and produce a publishable preprint. Both grant and angel routes welcome.</div>
+            </div>
+          </li>
+          <li>
+            <span class="ask-num">04</span>
+            <div>
+              <div class="ask-name">Connections</div>
+              <div class="ask-desc">Introductions to CEPI, BARDA, Gavi, or to LNP-experienced postdocs and PhDs who might consider co-founder roles down the line.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact-form"
+            action="mailto:syho.cyrus@gmail.com"
+            method="post"
+            enctype="text/plain"
+            id="contact-form">
+        <label for="cf-name">Your name</label>
+        <input type="text" id="cf-name" name="Name" required />
+
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="Email" required />
+
+        <label for="cf-role">I'm reaching out as a…</label>
+        <select id="cf-role" name="Role">
+          <option>Scientist or potential advisor</option>
+          <option>Investor or accelerator</option>
+          <option>Wet-lab collaborator</option>
+          <option>Program officer (CEPI / Gavi / BARDA)</option>
+          <option>Journalist or writer</option>
+          <option>Other</option>
+        </select>
+
+        <label for="cf-msg">Message</label>
+        <textarea id="cf-msg" name="Message" rows="4" required
+                  placeholder="What you're interested in. Specific is best."></textarea>
+
+        <button type="submit">Send via email</button>
+        <p class="contact-direct">
+          Or write directly to <a href="mailto:syho.cyrus@gmail.com">syho.cyrus@gmail.com</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div>
+      <h4>About this project</h4>
+      <p>
+        SHiP is a pre-seed-stage proposal for an oxidation-proof mRNA vaccine delivery platform. Built and maintained by Cyrus, a Grade 10 student in Vancouver.
+      </p>
+      <p>
+        All materials, source code, and computational results are open and reproducible. Numerical predictions are projections from kinetic modeling; they have not been verified by wet-lab experiment.
+      </p>
+    </div>
+    <div>
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="#problem">The problem</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#model">Interactive model</a></li>
+        <li><a href="#market">Market</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Get involved</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>References</h4>
+      <ul style="font-size: 12px;">
+        <li>1. Hallett, J. Imperial College London (2021)</li>
+        <li>2. WHO indicative wastage rates (2019)</li>
+        <li>3. Industry analyses of pharma cold chain (2025)</li>
+        <li>4. IQVIA cold chain analysis (2025)</li>
+        <li>5. Fortune Business Insights mRNA market report (2026)</li>
+        <li>Full reference list: see investor deck.</li>
+      </ul>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Cyrus / SHiP project. All design and code released under permissive terms for academic and review use.</span>
+      <span>v0.1 · April 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal-on-scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form: build a properly formatted mailto on submit
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const role = document.getElementById('cf-role').value;
+    const msg = document.getElementById('cf-msg').value.trim();
+    const subject = encodeURIComponent(`SHiP: ${role} — ${name}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nRole: ${role}\n\nMessage:\n${msg}`
+    );
+    window.location.href = `mailto:syho.cyrus@gmail.com?subject=${subject}&body=${body}`;
+  });
+</script>
+
+</body>
+</html>
